@@ -29,7 +29,7 @@ func TestPart1(t *testing.T) {
 	for _, fxt := range fixtures {
 		in := strings.Join(fxt.input, ", ")
 		t.Run(in, func(t *testing.T) {
-			got := Day01Part1(fxt.input)
+			got := Part1(fxt.input)
 			if got != fxt.expected {
 				t.Errorf("Day 01, part1([%s]) = %d; want: %d", in, got, fxt.expected)
 			}
@@ -48,7 +48,7 @@ func TestPart2(t *testing.T) {
 	for _, fxt := range fixtures {
 		in := strings.Join(fxt.input, ", ")
 		t.Run(in, func(t *testing.T) {
-			got := Day01Part2(fxt.input)
+			got := Part2(fxt.input)
 			if got != fxt.expected {
 				t.Errorf("Day 01, part2([%s]) = %d; want: %d", in, got, fxt.expected)
 			}

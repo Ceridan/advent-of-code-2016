@@ -19,7 +19,7 @@ var directionsToCompass = map[int]string{
 	3: "W",
 }
 
-func Day01Part1(route []string) int {
+func Part1(route []string) int {
 	dir, x, y := 0, 0, 0
 
 	for _, r := range route {
@@ -46,7 +46,7 @@ func Day01Part1(route []string) int {
 	return abs(x) + abs(y)
 }
 
-func Day01Part2(route []string) int {
+func Part2(route []string) int {
 	dir, x, y := 0, 0, 0
 	locs := map[location]bool{
 		location{x: 0, y: 0}: true,
@@ -96,13 +96,18 @@ func abs(x int) int {
 }
 
 func main() {
-	input, err := ioutil.ReadFile("days/inputs/day01.txt")
+	input, err := ioutil.ReadFile("days/01/input.txt")
 	if err != nil {
 		panic(err)
 	}
 
-	data := strings.Split(strings.Trim(string(input), "\n"), ", ")
+	var data []string
+	for _, line := range strings.Split(strings.Trim(string(input), "\n"), ", ") {
+		if line != "" {
+			data = append(data, line)
+		}
+	}
 
-	fmt.Printf("Day 01, part 1: %v\n", Day01Part1(data))
-	fmt.Printf("Day 01, part 2: %v\n", Day01Part2(data))
+	fmt.Printf("Day 01, part 1: %v\n", Part1(data))
+	fmt.Printf("Day 01, part 2: %v\n", Part2(data))
 }
