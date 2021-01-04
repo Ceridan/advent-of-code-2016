@@ -52,3 +52,20 @@ totally-real-room-200[decoy]
 		t.Errorf("Day 04, part1 = %d; want: %d", got, expected)
 	}
 }
+
+func TestCalculateDecrypt(t *testing.T) {
+	fixture := struct {
+		encrypted string
+		shift     int
+	}{
+		encrypted: "qzmt-zixmtkozy-ivhz",
+		shift:     343,
+	}
+	expected := "very encrypted name"
+
+	got := decrypt(fixture.encrypted, fixture.shift)
+
+	if got != expected {
+		t.Errorf("Day 04, decrypt(%s-%d) = %s; want: %s", fixture.encrypted, fixture.shift, got, expected)
+	}
+}

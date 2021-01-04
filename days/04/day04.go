@@ -29,7 +29,32 @@ func Part1(rooms []room) int {
 }
 
 func Part2(rooms []room) int {
+	for _, r := range rooms {
+		checksum := calculateChecksum(r.names)
+		if checksum != r.checksum {
+			continue
+		}
+		decrypted := decrypt(strings.Join(r.names, "-"), r.sectorId)
+		if decrypted == "northpole object storage" {
+			return r.sectorId
+		}
+	}
 	return 0
+}
+
+func decrypt(name string, sectorId int) string {
+	encrypted := []rune(name)
+	decrypted := make([]rune, len(encrypted))
+
+	for i, r := range encrypted {
+		if r == '-' {
+			decrypted[i] = ' '
+		} else {
+			decrypted[i] = rune(((int(r)-97)+sectorId)%26 + 97)
+		}
+	}
+
+	return string(decrypted)
 }
 
 func calculateChecksum(names []string) string {
