@@ -8,7 +8,7 @@ import (
 )
 
 func Part1(doorId string) string {
-	password := make([]string, 0, 8)
+	password := make([]rune, 0, 8)
 	i := 0
 
 	for len(password) < cap(password) {
@@ -16,17 +16,37 @@ func Part1(doorId string) string {
 		hash := md5.Sum([]byte(current))
 
 		if hash[0] == 0x00 && hash[1] == 0x00 && hash[2] <= 0x0f {
-			password = append(password, fmt.Sprintf("%x", hash[2]))
+			hexstring := []rune(fmt.Sprintf("%x", hash))
+			password = append(password, hexstring[5])
 		}
 
 		i += 1
 	}
 
-	return strings.Join(password, "")
+	return string(password)
 }
 
 func Part2(doorId string) string {
-	return ""
+	password := make([]rune, 8)
+	i, placed := 0, 0
+
+	for placed < 8 {
+		current := fmt.Sprintf("%s%d", doorId, i)
+		hash := md5.Sum([]byte(current))
+
+		if hash[0] == 0x00 && hash[1] == 0x00 && hash[2] <= 0x0f {
+			pos := int(hash[2])
+			if pos < 8 && password[pos] == 0 {
+				hexstring := []rune(fmt.Sprintf("%x", hash))
+				password[pos] = hexstring[6]
+				placed += 1
+			}
+		}
+
+		i += 1
+	}
+
+	return string(password)
 }
 
 func main() {
