@@ -11,7 +11,7 @@ func Part1(messages []string) string {
 	ecv := make([]rune, len(messages[0]), len(messages[0]))
 
 	for i, msg := range tmessages {
-		_, most := common_chars(msg)
+		_, most := commonChars(msg)
 		ecv[i] = most
 	}
 
@@ -23,14 +23,14 @@ func Part2(messages []string) string {
 	ecv := make([]rune, len(messages[0]), len(messages[0]))
 
 	for i, msg := range tmessages {
-		less, _ := common_chars(msg)
+		less, _ := commonChars(msg)
 		ecv[i] = less
 	}
 
 	return string(ecv)
 }
 
-func common_chars(message string) (less rune, most rune) {
+func commonChars(message string) (less rune, most rune) {
 	chars := make(map[rune]int)
 	runes := []rune(message)
 
