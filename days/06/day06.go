@@ -11,29 +11,46 @@ func Part1(messages []string) string {
 	ecv := make([]rune, len(messages[0]), len(messages[0]))
 
 	for i, msg := range tmessages {
-		letters := make(map[rune]int)
-		runes := []rune(msg)
-
-		for _, r := range runes {
-			letters[r] += 1
-		}
-
-		var mr rune = 0
-		mc := 0
-		for k, v := range letters {
-			if v > mc {
-				mr = k
-				mc = v
-			}
-		}
-		ecv[i] = mr
+		_, most := common_chars(msg)
+		ecv[i] = most
 	}
 
 	return string(ecv)
 }
 
 func Part2(messages []string) string {
-	return ""
+	tmessages := transpose(messages)
+	ecv := make([]rune, len(messages[0]), len(messages[0]))
+
+	for i, msg := range tmessages {
+		less, _ := common_chars(msg)
+		ecv[i] = less
+	}
+
+	return string(ecv)
+}
+
+func common_chars(message string) (less rune, most rune) {
+	chars := make(map[rune]int)
+	runes := []rune(message)
+
+	for _, r := range runes {
+		chars[r] += 1
+	}
+
+	lc, mc := len(message)+1, 0
+	for k, v := range chars {
+		if v < lc {
+			less = k
+			lc = v
+		}
+		if v > mc {
+			most = k
+			mc = v
+		}
+	}
+
+	return less, most
 }
 
 func transpose(messages []string) []string {
