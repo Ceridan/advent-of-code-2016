@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -101,7 +101,7 @@ func parseByColumns(input string) [][]int {
 }
 
 func main() {
-	input, err := ioutil.ReadFile("days/03/input.txt")
+	input, err := os.ReadFile("days/03/input.txt")
 	if err != nil {
 		panic(err)
 	}

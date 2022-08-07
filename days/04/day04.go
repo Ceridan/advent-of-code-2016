@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"regexp"
 	"sort"
 	"strconv"
@@ -130,7 +130,7 @@ func parseInput(input string) []room {
 }
 
 func main() {
-	input, err := ioutil.ReadFile("days/04/input.txt")
+	input, err := os.ReadFile("days/04/input.txt")
 	if err != nil {
 		panic(err)
 	}

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -60,7 +60,7 @@ func calculate(instructions []string, keyToNextKey map[rune]map[rune]rune) strin
 }
 
 func main() {
-	input, err := ioutil.ReadFile("days/02/input.txt")
+	input, err := os.ReadFile("days/02/input.txt")
 	if err != nil {
 		panic(err)
 	}

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -96,7 +96,7 @@ func abs(x int) int {
 }
 
 func main() {
-	input, err := ioutil.ReadFile("days/01/input.txt")
+	input, err := os.ReadFile("days/01/input.txt")
 	if err != nil {
 		panic(err)
 	}

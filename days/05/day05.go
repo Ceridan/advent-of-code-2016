@@ -3,7 +3,7 @@ package main
 import (
 	"crypto/md5"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -50,7 +50,7 @@ func Part2(doorId string) string {
 }
 
 func main() {
-	input, err := ioutil.ReadFile("days/05/input.txt")
+	input, err := os.ReadFile("days/05/input.txt")
 	if err != nil {
 		panic(err)
 	}

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -72,7 +72,7 @@ func transpose(messages []string) []string {
 }
 
 func main() {
-	input, err := ioutil.ReadFile("days/06/input.txt")
+	input, err := os.ReadFile("days/06/input.txt")
 	if err != nil {
 		panic(err)
 	}
