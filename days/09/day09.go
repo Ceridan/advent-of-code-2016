@@ -9,26 +9,14 @@ import (
 )
 
 func Part1(compressed string) int64 {
-	r := regexp.MustCompile("\\((\\d+)x(\\d+)\\)")
-	var dlen int64
-	var i = 0
-	for i < len(compressed) {
-		if compressed[i] == '(' {
-			matches := r.FindStringSubmatch(compressed[i:])
-			count, _ := strconv.Atoi(matches[1])
-			repeat, _ := strconv.Atoi(matches[2])
-			dlen += int64(count * repeat)
-			i += count + len(matches[0])
-			continue
-		}
-		dlen += 1
-		i += 1
-	}
-
-	return dlen
+	return calc(compressed, false)
 }
 
 func Part2(compressed string) int64 {
+	return calc(compressed, true)
+}
+
+func calc(compressed string, expand bool) int64 {
 	r := regexp.MustCompile("\\((\\d+)x(\\d+)\\)")
 	var dlen int64
 	var i = 0
@@ -37,8 +25,12 @@ func Part2(compressed string) int64 {
 			matches := r.FindStringSubmatch(compressed[i:])
 			count, _ := strconv.Atoi(matches[1])
 			repeat, _ := strconv.Atoi(matches[2])
-			markerLen := i + len(matches[0])
-			dlen += Part2(compressed[markerLen:markerLen+count]) * int64(repeat)
+			if expand {
+				markerLen := i + len(matches[0])
+				dlen += calc(compressed[markerLen:markerLen+count], expand) * int64(repeat)
+			} else {
+				dlen += int64(count * repeat)
+			}
 			i += count + len(matches[0])
 			continue
 		}
