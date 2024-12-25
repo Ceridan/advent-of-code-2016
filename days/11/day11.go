@@ -30,7 +30,7 @@ func getFloorItems(generators []int, microchips []int) []int {
 	return items
 }
 
-// Very hacky way to solve it. We do not respect types of the items, just counts.
+// Cheesy way to solve it. We do not respect types of the items at all, just counts.
 // It requires 2 * (n - 1) - 1 steps to move all items from one floor to the next floor.
 // The tricky part is an example when we have only microchips on the first floor.
 // My idea is to add a heuristic - add additional moves to reach first generator.
