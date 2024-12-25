@@ -24,6 +24,13 @@ func newVM() *VM {
 	return &VM{a: 0, b: 0, c: 0, d: 0}
 }
 
+func (vm *VM) init(a int64, b int64, c int64, d int64) {
+	vm.a = a
+	vm.b = b
+	vm.c = c
+	vm.d = d
+}
+
 func (vm *VM) run(program []Instruction) {
 	idx := 0
 	for idx < len(program) {
@@ -127,7 +134,11 @@ func Part1(instructions []string) int64 {
 }
 
 func Part2(instructions []string) int64 {
-	return 0
+	program := parseInput(instructions)
+	vm := newVM()
+	vm.init(0, 0, 1, 0)
+	vm.run(program)
+	return vm.a
 }
 
 func main() {
