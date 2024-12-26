@@ -38,7 +38,7 @@ func isOpenCell(p *Point, num int) bool {
 	return ones%2 == 0
 }
 
-func bfs(number int, start, target *Point) int {
+func targetBfs(number int, start, target *Point) int {
 	queue := []QueueItem{{p: start, moves: 0}}
 	visited := map[Point]bool{}
 	for len(queue) > 0 {
@@ -68,12 +68,41 @@ func bfs(number int, start, target *Point) int {
 	return -1
 }
 
-func Part1(number int, start *Point, target *Point) int {
-	return bfs(number, start, target)
+func stepsBfs(number int, start *Point, steps int) int {
+	queue := []QueueItem{{p: start, moves: 0}}
+	visited := map[Point]bool{}
+	locations := 0
+	for len(queue) > 0 {
+		item := queue[0]
+		queue = queue[1:]
+
+		if item.p.x < 0 || item.p.y < 0 || item.moves > steps {
+			continue
+		}
+		if _, ok := visited[*item.p]; ok {
+			continue
+		}
+		visited[*item.p] = true
+
+		if !isOpenCell(item.p, number) {
+			continue
+		}
+
+		locations += 1
+
+		for _, d := range directions {
+			queue = append(queue, QueueItem{item.p.add(d), item.moves + 1})
+		}
+	}
+	return locations
 }
 
-func Part2(number int, start *Point, target *Point) int {
-	return 0
+func Part1(number int, start *Point, target *Point) int {
+	return targetBfs(number, start, target)
+}
+
+func Part2(number int, start *Point, steps int) int {
+	return stepsBfs(number, start, steps)
 }
 
 func main() {
@@ -88,5 +117,5 @@ func main() {
 	}
 
 	fmt.Printf("Day 13, part 1: %v\n", Part1(number, &Point{1, 1}, &Point{31, 39}))
-	fmt.Printf("Day 13, part 2: %v\n", Part2(number, &Point{1, 1}, &Point{31, 39}))
+	fmt.Printf("Day 13, part 2: %v\n", Part2(number, &Point{1, 1}, 50))
 }
