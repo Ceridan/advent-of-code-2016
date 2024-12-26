@@ -2,28 +2,32 @@ package main
 
 import (
 	"crypto/md5"
+	"encoding/hex"
 	"fmt"
 	"os"
 	"strconv"
 	"strings"
 )
 
-func checkTriplet(hash [16]byte) uint8 {
-	s := fmt.Sprintf("%x", hash)
-	for i := 0; i < len(s)-2; i++ {
-		if s[i] == s[i+1] && s[i] == s[i+2] {
-			return s[i]
+func md5hash(s string) string {
+	hash := md5.Sum([]byte(s))
+	return hex.EncodeToString(hash[:])
+}
+
+func checkTriplet(hash string) uint8 {
+	for i := 0; i < len(hash)-2; i++ {
+		if hash[i] == hash[i+1] && hash[i] == hash[i+2] {
+			return hash[i]
 		}
 	}
 	return 0
 }
 
-func checkQuintet(hash [16]byte, char uint8) bool {
-	s := fmt.Sprintf("%x", hash)
-	for i := 0; i < len(s)-4; i++ {
+func checkQuintet(hash string, char uint8) bool {
+	for i := 0; i < len(hash)-4; i++ {
 		found := true
 		for j := i; j < i+5; j++ {
-			if s[j] != char {
+			if hash[j] != char {
 				found = false
 				break
 			}
@@ -35,7 +39,7 @@ func checkQuintet(hash [16]byte, char uint8) bool {
 	return false
 }
 
-func searchKeys(possible map[int]uint8, hash [16]byte, idx int) []int {
+func searchKeys(possible map[int]uint8, hash string, idx int) []int {
 	mx := 0
 	if idx-1000 > mx {
 		mx = idx - 1000
@@ -49,7 +53,7 @@ func searchKeys(possible map[int]uint8, hash [16]byte, idx int) []int {
 	return keys
 }
 
-func generateKeys(salt string, hashFn func(s string) [16]byte) int {
+func generateKeys(salt string, hashFn func(s string) string) int {
 	possible := make(map[int]uint8)
 	keys := 0
 	i := 0
@@ -74,17 +78,17 @@ func generateKeys(salt string, hashFn func(s string) [16]byte) int {
 }
 
 func Part1(salt string) int {
-	hashFn := func(s string) [16]byte {
-		return md5.Sum([]byte(s))
+	hashFn := func(s string) string {
+		return md5hash(s)
 	}
 	return generateKeys(salt, hashFn)
 }
 
 func Part2(salt string) int {
-	hashFn := func(s string) [16]byte {
-		hash := md5.Sum([]byte(s))
-		for i := 1; i <= 2016; i++ {
-			hash = md5.Sum([]byte(fmt.Sprintf("%x", hash)))
+	hashFn := func(s string) string {
+		hash := s
+		for i := 0; i <= 2016; i++ {
+			hash = md5hash(hash)
 		}
 		return hash
 	}
