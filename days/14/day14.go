@@ -102,6 +102,6 @@ func main() {
 	}
 	salt := strings.Trim(string(input), "\n")
 
-	fmt.Printf("Day 13, part 1: %v\n", Part1(salt))
-	fmt.Printf("Day 13, part 2: %v\n", Part2(salt))
+	fmt.Printf("Day 14, part 1: %v\n", Part1(salt))
+	fmt.Printf("Day 14, part 2: %v\n", Part2(salt))
 }
