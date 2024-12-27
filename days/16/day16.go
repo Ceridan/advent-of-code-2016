@@ -57,7 +57,9 @@ func Part1(state string, diskSize int) string {
 }
 
 func Part2(state string, diskSize int) string {
-	return ""
+	data := generateData(convertState(state), diskSize)
+	checksum := calculateChecksum(data)
+	return checksum
 }
 
 func main() {
@@ -68,5 +70,5 @@ func main() {
 	state := strings.Trim(string(input), "\n")
 
 	fmt.Printf("Day 16, part 1: %v\n", Part1(state, 272))
-	fmt.Printf("Day 16, part 2: %v\n", Part2(state, 272))
+	fmt.Printf("Day 16, part 2: %v\n", Part2(state, 35651584))
 }
