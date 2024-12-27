@@ -10,26 +10,8 @@ func generateNextRow(row []byte) ([]byte, int) {
 	nextRow := make([]byte, len(row))
 	safe := 0
 
-	for i := range nextRow {
-		var left byte = 0
-		if i > 0 && row[i-1] == 1 {
-			left = 1
-		}
-
-		var right byte = 0
-		if i < len(row)-1 && row[i+1] == 1 {
-			right = 1
-		}
-
-		center := row[i]
-
-		if left == 1 && center == 1 && right == 0 {
-			nextRow[i] = 1
-		} else if left == 0 && center == 1 && right == 1 {
-			nextRow[i] = 1
-		} else if left == 1 && center == 0 && right == 0 {
-			nextRow[i] = 1
-		} else if left == 0 && center == 0 && right == 1 {
+	for i := 1; i < len(row)-1; i++ {
+		if row[i-1]^row[i+1] == 1 {
 			nextRow[i] = 1
 		} else {
 			nextRow[i] = 0
@@ -40,20 +22,20 @@ func generateNextRow(row []byte) ([]byte, int) {
 }
 
 func convertRow(row string) ([]byte, int) {
-	bytes := make([]byte, len(row))
+	bytes := make([]byte, len(row)+2)
 	safe := 0
 	for i := range row {
 		if row[i] == '.' {
-			bytes[i] = 0
+			bytes[i+1] = 0
 			safe++
 		} else {
-			bytes[i] = 1
+			bytes[i+1] = 1
 		}
 	}
 	return bytes, safe
 }
 
-func Part1(row string, depth int) int {
+func calculateSafeTiles(row string, depth int) int {
 	bytes, safe := convertRow(row)
 	for i := 1; i < depth; i++ {
 		b, s := generateNextRow(bytes)
@@ -63,14 +45,12 @@ func Part1(row string, depth int) int {
 	return safe
 }
 
+func Part1(row string, depth int) int {
+	return calculateSafeTiles(row, depth)
+}
+
 func Part2(row string, depth int) int {
-	bytes, safe := convertRow(row)
-	for i := 1; i < depth; i++ {
-		b, s := generateNextRow(bytes)
-		bytes = b
-		safe += s
-	}
-	return safe
+	return calculateSafeTiles(row, depth)
 }
 
 func main() {
