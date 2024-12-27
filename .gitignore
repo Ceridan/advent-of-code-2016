@@ -38,3 +38,10 @@
 ### Artifacts ###
 # Output directories
 out/*
+
+### direnv ###
+.direnv
+.envrc
+
+### dotenv ###
+.env
