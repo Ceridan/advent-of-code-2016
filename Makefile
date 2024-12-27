@@ -6,6 +6,10 @@
 direnv: # Set environment varaibales
 	direnv allow .
 
+.PHONY: gen
+gen: # Generate next day
+	@go run ./gen.go --day=$(day)
+
 ##############################################################################
 # Development
 ##############################################################################
@@ -15,12 +19,8 @@ format: # Format code
 
 .PHONY: test
 test: # Test day XX
-	@go test ./$(day)/day$(day).go
+	@go test ./days/$(day)/day$(day).go ./days/$(day)/day$(day)_test.go
 
 .PHONY: exec
 exec: # Run day XX
-	@go run ./$(day)/day$(day).go
-
-.PHONY: gen
-gen: # Generate next day
-	@go run ./gen.go --day=$(day)
+	@go run ./days/$(day)/day$(day).go
