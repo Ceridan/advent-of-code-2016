@@ -49,7 +49,8 @@ func solveReminders(disks []disk) int {
 	y := make([]int, len(disks))
 	for i, d := range disks {
 		mi := M[i] % d.mod
-		pos := (d.pos + i + 1) % d.mod
+		// Rotate to the position it should be to have 0 position at the correct time.
+		pos := (2*d.mod - d.pos - i - 1) % d.mod
 		for j := 0; j < d.mod; j++ {
 			if (mi*j)%d.mod == pos {
 				y[i] = j
@@ -65,36 +66,15 @@ func solveReminders(disks []disk) int {
 	return x
 }
 
-func solveBruteForce(disks []disk) int {
-	time := 0
-	for {
-		found := true
-		for i, d := range disks {
-			pos := (d.pos + i + 1 + time) % d.mod
-			if pos != 0 {
-				found = false
-				break
-			}
-		}
-
-		if found {
-			break
-		}
-
-		time++
-	}
-	return time
-}
-
 func Part1(data []string) int {
 	disks := parseInput(data)
-	return solveBruteForce(disks)
+	return solveReminders(disks)
 }
 
 func Part2(data []string) int {
 	disks := parseInput(data)
 	disks = append(disks, disk{mod: 11, pos: 0})
-	return solveBruteForce(disks)
+	return solveReminders(disks)
 }
 
 func main() {
