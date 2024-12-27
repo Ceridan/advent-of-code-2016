@@ -64,7 +64,13 @@ func Part1(row string, depth int) int {
 }
 
 func Part2(row string, depth int) int {
-	return 0
+	bytes, safe := convertRow(row)
+	for i := 1; i < depth; i++ {
+		b, s := generateNextRow(bytes)
+		bytes = b
+		safe += s
+	}
+	return safe
 }
 
 func main() {
@@ -75,5 +81,5 @@ func main() {
 	row := strings.Trim(string(input), "\n")
 
 	fmt.Printf("Day 18, part 1: %v\n", Part1(row, 40))
-	fmt.Printf("Day 18, part 2: %v\n", Part2(row, 40))
+	fmt.Printf("Day 18, part 2: %v\n", Part2(row, 400000))
 }
