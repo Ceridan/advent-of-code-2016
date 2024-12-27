@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -6,12 +5,13 @@ import (
 )
 
 func TestPart1(t *testing.T) {
-	expected := 0
-	data := []string{}
+	expected := "01100"
+	state := "10000"
+	diskSize := 20
 
-	got := Part1(data)
+	got := Part1(state, diskSize)
 
 	if got != expected {
-		t.Errorf("Day 16, part1 = %d; want: %d", got, expected)
+		t.Errorf("Day 16, part1 = %s; want: %s", got, expected)
 	}
 }
