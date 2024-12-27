@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"text/template"
@@ -161,6 +162,13 @@ func main() {
 	}
 	inputPath := filepath.Join(dirPath, "input.txt")
 	err = os.WriteFile(inputPath, []byte(input), 0644)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	git := exec.Command("git", "add", ".")
+	err = git.Run()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
