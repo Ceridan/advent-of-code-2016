@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -10,27 +9,25 @@ import (
 
 // https://en.wikipedia.org/wiki/Josephus_problem
 func solveJosephus2(n int) int {
-	var l int
 	b := 1
-	for {
-		if b > n {
-			l = n - (b >> 1)
-			break
-		}
+	for b <= n {
 		b = b << 1
 	}
+	l := n - (b >> 1)
 	return 2*l + 1
 }
 
 func solveJosephusX(n int) int {
-	p := math.Floor(math.Log(float64(n)) / math.Log(3.0))
-	b := math.Pow(3.0, p)
+	b := 1
+	for b <= n {
+		b = b * 3
+	}
+	l := b / 3
 
-	if n == int(b) {
+	if n == l {
 		return n
 	}
-
-	return n - int(b)
+	return n - l
 }
 
 func Part1(num int) int {
