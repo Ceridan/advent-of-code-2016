@@ -17,6 +17,7 @@ type Point struct {
 func (p *Point) add(other *Point) *Point {
 	return &Point{x: p.x + other.x, y: p.y + other.y}
 }
+
 func (p *Point) equals(other *Point) bool {
 	return p.x == other.x && p.y == other.y
 }
