@@ -140,6 +140,8 @@ func Part2(data []string) int {
 		fmt.Println("Impossible to move data from target node")
 		os.Exit(1)
 	}
+
+	// A little but hacky because we use the knowledge that there is no "walls" on first two lines.
 	steps = steps + leftFromTargetNode.point.x*5 + 1
 	return steps
 }
