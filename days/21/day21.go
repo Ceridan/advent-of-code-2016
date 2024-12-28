@@ -245,7 +245,7 @@ func backwardOperations(operations []string, password string) string {
 			matches := rl.FindAllStringSubmatch(operation, -1)
 			x := matches[0][1]
 			pass := ll.String()
-			for j := 1; j <= ll.size; j++ {
+			for {
 				ll.rotateLeft(1)
 				tmp := ll.Copy()
 				tmp.rotateLetter(x)
