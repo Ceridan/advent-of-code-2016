@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 	"strings"
 )
 
 // https://en.wikipedia.org/wiki/Josephus_problem
-func solveJosephus(n int) int {
+func solveJosephus2(n int) int {
 	var l int
 	b := 1
 	for {
@@ -21,12 +22,23 @@ func solveJosephus(n int) int {
 	return 2*l + 1
 }
 
+func solveJosephusX(n int) int {
+	p := math.Floor(math.Log(float64(n)) / math.Log(3.0))
+	b := math.Pow(3.0, p)
+
+	if n == int(b) {
+		return n
+	}
+
+	return n - int(b)
+}
+
 func Part1(num int) int {
-	return solveJosephus(num)
+	return solveJosephus2(num)
 }
 
 func Part2(num int) int {
-	return 0
+	return solveJosephusX(num)
 }
 
 func main() {

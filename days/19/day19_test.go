@@ -14,3 +14,14 @@ func TestPart1(t *testing.T) {
 		t.Errorf("Day 19, part1 = %d; want: %d", got, expected)
 	}
 }
+
+func TestPart2(t *testing.T) {
+	expected := 2
+	num := 5
+
+	got := Part2(num)
+
+	if got != expected {
+		t.Errorf("Day 19, part2 = %d; want: %d", got, expected)
+	}
+}
