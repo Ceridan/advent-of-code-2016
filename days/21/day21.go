@@ -168,7 +168,11 @@ func (ll *LinkedList) String() string {
 	return sb.String()
 }
 
-func processOperations(operations []string, password string) string {
+func (ll *LinkedList) Copy() *LinkedList {
+	return newLinkedList(ll.String())
+}
+
+func forwardOperations(operations []string, password string) string {
 	rd := regexp.MustCompile("(\\d+)")
 	rl := regexp.MustCompile("letter (\\w)")
 
@@ -212,12 +216,65 @@ func processOperations(operations []string, password string) string {
 	return ll.String()
 }
 
+func backwardOperations(operations []string, password string) string {
+	rd := regexp.MustCompile("(\\d+)")
+	rl := regexp.MustCompile("letter (\\w)")
+
+	ll := newLinkedList(password)
+	for i := len(operations) - 1; i >= 0; i-- {
+		operation := operations[i]
+		if strings.HasPrefix(operation, "swap position") {
+			matches := rd.FindAllStringSubmatch(operation, -1)
+			x, _ := strconv.Atoi(matches[0][1])
+			y, _ := strconv.Atoi(matches[1][1])
+			ll.swapPosition(x, y)
+		} else if strings.HasPrefix(operation, "swap letter") {
+			matches := rl.FindAllStringSubmatch(operation, -1)
+			x := matches[0][1]
+			y := matches[1][1]
+			ll.swapLetter(x, y)
+		} else if strings.HasPrefix(operation, "rotate left") {
+			matches := rd.FindAllStringSubmatch(operation, -1)
+			x, _ := strconv.Atoi(matches[0][1])
+			ll.rotateRight(x)
+		} else if strings.HasPrefix(operation, "rotate right") {
+			matches := rd.FindAllStringSubmatch(operation, -1)
+			x, _ := strconv.Atoi(matches[0][1])
+			ll.rotateLeft(x)
+		} else if strings.HasPrefix(operation, "rotate based") {
+			matches := rl.FindAllStringSubmatch(operation, -1)
+			x := matches[0][1]
+			pass := ll.String()
+			for j := 1; j <= ll.size; j++ {
+				ll.rotateLeft(1)
+				tmp := ll.Copy()
+				tmp.rotateLetter(x)
+				if tmp.String() == pass {
+					break
+				}
+			}
+		} else if strings.HasPrefix(operation, "reverse") {
+			matches := rd.FindAllStringSubmatch(operation, -1)
+			x, _ := strconv.Atoi(matches[0][1])
+			y, _ := strconv.Atoi(matches[1][1])
+			ll.reverse(x, y)
+		} else if strings.HasPrefix(operation, "move") {
+			matches := rd.FindAllStringSubmatch(operation, -1)
+			x, _ := strconv.Atoi(matches[0][1])
+			y, _ := strconv.Atoi(matches[1][1])
+			ll.move(y, x)
+		}
+	}
+
+	return ll.String()
+}
+
 func Part1(operations []string, password string) string {
-	return processOperations(operations, password)
+	return forwardOperations(operations, password)
 }
 
 func Part2(operations []string, password string) string {
-	return ""
+	return backwardOperations(operations, password)
 }
 
 func main() {
@@ -229,5 +286,5 @@ func main() {
 	operations = operations[:len(operations)-1]
 
 	fmt.Printf("Day 21, part 1: %v\n", Part1(operations, "abcdefgh"))
-	fmt.Printf("Day 21, part 2: %v\n", Part2(operations, "abcdefgh"))
+	fmt.Printf("Day 21, part 2: %v\n", Part2(operations, "fbgdceah"))
 }
