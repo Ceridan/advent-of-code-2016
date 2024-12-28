@@ -31,9 +31,14 @@ func (vm *VM) init(a int64, b int64, c int64, d int64) {
 	vm.d = d
 }
 
-func (vm *VM) run(program []Instruction) {
+func (vm *VM) run(program []Instruction, patchFn func(int) int) {
 	idx := 0
-	for idx < len(program) {
+	for idx >= 0 && idx < len(program) {
+		newIdx := patchFn(idx)
+		if newIdx != idx {
+			idx = newIdx
+			continue
+		}
 		instr := program[idx]
 		switch instr.name {
 		case "cpy":
@@ -155,12 +160,28 @@ func Part1(instructions []string, a int) int64 {
 	instr := parseInput(instructions)
 	vm := newVM()
 	vm.init(int64(a), 0, 0, 0)
-	vm.run(instr)
+	patchFn := func(idx int) int {
+		return idx
+	}
+	vm.run(instr, patchFn)
 	return vm.a
 }
 
 func Part2(instructions []string, a int) int64 {
-	return 0
+	instr := parseInput(instructions)
+	vm := newVM()
+	vm.init(int64(a), 0, 0, 0)
+	patchFn := func(idx int) int {
+		if idx == 4 {
+			vm.a = vm.b * vm.d
+			vm.c = 0
+			vm.d = 0
+			return 10
+		}
+		return idx
+	}
+	vm.run(instr, patchFn)
+	return vm.a
 }
 
 func main() {
@@ -172,5 +193,5 @@ func main() {
 	instructions = instructions[:len(instructions)-1]
 
 	fmt.Printf("Day 23, part 1: %v\n", Part1(instructions, 7))
-	fmt.Printf("Day 23, part 2: %v\n", Part2(instructions, 7))
+	fmt.Printf("Day 23, part 2: %v\n", Part2(instructions, 12))
 }
