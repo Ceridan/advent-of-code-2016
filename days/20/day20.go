@@ -90,5 +90,3 @@ func main() {
 	fmt.Printf("Day 20, part 1: %v\n", Part1(blacklist, 4294967295))
 	fmt.Printf("Day 20, part 2: %v\n", Part2(blacklist, 4294967295))
 }
-
-// 221516503474 - too high
